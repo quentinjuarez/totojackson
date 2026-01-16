@@ -18,7 +18,7 @@
         --bg-color: #0a0a0a;
         --text-color: #f0f0f0;
         --accent-color: #d4af37;
-        --cursor-size: 20px;
+        --cursor-size: 32px;
       }
 
       * {
@@ -48,22 +48,29 @@
       }
 
       /* --- CURSEUR --- */
+
       .cursor {
         width: var(--cursor-size);
         height: var(--cursor-size);
-        border: 1px solid white;
-        border-radius: 50%;
+
+        background-image: url('./public/cursor.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+
         position: fixed;
         pointer-events: none;
         z-index: 9999;
+
         transform: translate(-50%, -50%);
-        transition: transform 0.1s ease;
-        mix-blend-mode: difference;
+        transition: transform 0.15s ease;
       }
 
       .cursor.hovered {
+        /* On garde l'effet de zoom */
         transform: translate(-50%, -50%) scale(2.5);
-        background-color: rgba(255, 255, 255, 0.1);
+
+        background-color: transparent;
         border-color: transparent;
       }
 
