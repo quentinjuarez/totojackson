@@ -17,7 +17,7 @@
       :root {
         --bg-color: #0a0a0a;
         --text-color: #f0f0f0;
-        --accent-color: #d4af37; /* Or antique */
+        --accent-color: #d4af37;
         --cursor-size: 20px;
       }
 
@@ -25,7 +25,7 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        cursor: none; /* On cache le curseur par défaut pour mettre le nôtre */
+        cursor: none;
       }
 
       body {
@@ -47,7 +47,7 @@
         color: inherit;
       }
 
-      /* --- CURSEUR PERSONNALISÉ --- */
+      /* --- CURSEUR --- */
       .cursor {
         width: var(--cursor-size);
         height: var(--cursor-size);
@@ -123,7 +123,7 @@
         animation: bounce 2s infinite;
       }
 
-      /* --- AUTO SCROLL CARROUSEL (MARQUEE) --- */
+      /* --- MARQUEE --- */
       .marquee-section {
         padding: 4rem 0;
         background: #111;
@@ -139,7 +139,8 @@
 
       .marquee-content {
         display: flex;
-        animation: scroll 20s linear infinite;
+        /* Animation gérée dynamiquement si besoin, ou fixe */
+        animation: scroll 40s linear infinite;
       }
 
       .marquee-item {
@@ -186,6 +187,11 @@
         overflow: hidden;
       }
 
+      /* Classe utilitaire pour le décalage (ajoutée via JS) */
+      .art-card.staggered {
+        margin-top: 3rem;
+      }
+
       .art-card img {
         width: 100%;
         height: 100%;
@@ -212,14 +218,14 @@
         transform: translateY(0);
       }
 
-      /* --- ANIMATIONS & UTILITIES --- */
+      /* --- ANIMATIONS --- */
       @keyframes scroll {
         0% {
           transform: translateX(0);
         }
         100% {
           transform: translateX(-50%);
-        } /* Doit bouger de 50% car le contenu est dupliqué */
+        }
       }
 
       @keyframes fadeUp {
@@ -245,7 +251,6 @@
         }
       }
 
-      /* Classe pour l'effet de scroll JS */
       .reveal {
         opacity: 0;
         transform: translateY(50px);
@@ -270,7 +275,6 @@
 
     <nav>
       <div class="logo hover-target">TotoJackson</div>
-      <!-- <div class="menu hover-target">Menu</div> -->
     </nav>
 
     <header class="hero">
@@ -284,301 +288,13 @@
 
     <section class="marquee-section">
       <div class="marquee-container">
-        <div class="marquee-content hover-target">
-          <div class="marquee-item">
-            <img
-              src="./public/Gemini_Generated_Image_5gshay5gshay5gsh.png"
-              alt="Art"
-            />
-          </div>
-          <div class="marquee-item">
-            <img
-              src="./public/Gemini_Generated_Image_8hyarp8hyarp8hya.png"
-              alt="Art"
-            />
-          </div>
-          <div class="marquee-item">
-            <img
-              src="./public/Gemini_Generated_Image_77c4z977c4z977c4.png"
-              alt="Art"
-            />
-          </div>
-          <div class="marquee-item">
-            <img
-              src="./public/Gemini_Generated_Image_bjw10lbjw10lbjw1.png"
-              alt="Art"
-            />
-          </div>
-          <div class="marquee-item">
-            <img
-              src="./public/Gemini_Generated_Image_e9zsb4e9zsb4e9zs.png"
-              alt="Art"
-            />
-          </div>
-          <div class="marquee-item">
-            <img
-              src="./public/Gemini_Generated_Image_ftfn70ftfn70ftfn.png"
-              alt="Art"
-            />
-          </div>
-          <div class="marquee-item">
-            <img
-              src="./public/Gemini_Generated_Image_lw7yiblw7yiblw7y.png"
-              alt="Art"
-            />
-          </div>
-          <div class="marquee-item">
-            <img
-              src="./public/Gemini_Generated_Image_q0x1s1q0x1s1q0x1.png"
-              alt="Art"
-            />
-          </div>
-          <div class="marquee-item">
-            <img
-              src="./public/Gemini_Generated_Image_qd0eimqd0eimqd0e.png"
-              alt="Art"
-            />
-          </div>
-          <div class="marquee-item">
-            <img
-              src="./public/Gemini_Generated_Image_tea9bitea9bitea9.png"
-              alt="Art"
-            />
-          </div>
-          <div class="marquee-item">
-            <img
-              src="./public/Gemini_Generated_Image_tfrysltfrysltfry.png"
-              alt="Art"
-            />
-          </div>
-        </div>
+        <div class="marquee-content hover-target" id="marquee-content"></div>
       </div>
     </section>
 
     <section class="gallery-section">
       <h2 class="section-title reveal">Œuvres Sélectionnées</h2>
-
-      <div class="gallery-grid">
-        <div class="art-card reveal hover-target">
-          <img
-            src="./public/Gemini_Generated_Image_8hyarp8hyarp8hya.png"
-            alt="Artwork 1"
-          />
-          <div class="art-info">
-            <h3>heu ça va toto ?</h3>
-            <p>Huile sur toile numérique</p>
-          </div>
-        </div>
-
-        <div class="art-card reveal hover-target" style="margin-top: 3rem">
-          <img
-            src="./public/Gemini_Generated_Image_tfrysltfrysltfry.png"
-            alt="Artwork 2"
-          />
-          <div class="art-info">
-            <h3>ptn merde qui l’a laissé dans le booth</h3>
-            <p>Photographie</p>
-          </div>
-        </div>
-
-        <div class="art-card reveal hover-target">
-          <img
-            src="./public/Gemini_Generated_Image_5gshay5gshay5gsh.png"
-            alt="Artwork 3"
-          />
-          <div class="art-info">
-            <h3>une idée géniale</h3>
-            <p>Art vectoriel</p>
-          </div>
-        </div>
-
-        <div class="art-card reveal hover-target" style="margin-top: 3rem">
-          <img
-            src="./public/Gemini_Generated_Image_bjw10lbjw10lbjw1.png"
-            alt="Artwork 4"
-          />
-          <div class="art-info">
-            <h3>un truc dans les cheveux fais gaffe</h3>
-            <p>Collage Mixte</p>
-          </div>
-        </div>
-
-        <div class="art-card reveal hover-target">
-          <img
-            src="./public/Gemini_Generated_Image_ftfn70ftfn70ftfn.png"
-            alt="Artwork 5"
-          />
-          <div class="art-info">
-            <h3>réfléchi pas trop</h3>
-            <p>Sculpture numérique</p>
-          </div>
-        </div>
-
-        <div class="art-card reveal hover-target" style="margin-top: 3rem">
-          <img
-            src="./public/Gemini_Generated_Image_sqst7usqst7usqst.png"
-            alt="Artwork 6"
-          />
-          <div class="art-info">
-            <h3>éclosion</h3>
-            <p>Installation visuelle</p>
-          </div>
-        </div>
-
-        <div class="art-card reveal hover-target">
-          <img
-            src="./public/Gemini_Generated_Image_y495m7y495m7y495.png"
-            alt="Artwork 7"
-          />
-          <div class="art-info">
-            <h3>le bon trou</h3>
-            <p>Peinture acrylique numérique</p>
-          </div>
-        </div>
-
-        <div class="art-card reveal hover-target" style="margin-top: 3rem">
-          <img
-            src="./public/Gemini_Generated_Image_77c4z977c4z977c4.png"
-            alt="Artwork 8"
-          />
-          <div class="art-info">
-            <h3>smash/pass</h3>
-            <p>Art numérique génératif</p>
-          </div>
-        </div>
-
-        <div class="art-card reveal hover-target">
-          <img
-            src="./public/Gemini_Generated_Image_e9zsb4e9zsb4e9zs.png"
-            alt="Artwork 9"
-          />
-          <div class="art-info">
-            <h3>scintillant</h3>
-            <p>Design graphique</p>
-          </div>
-        </div>
-
-        <div class="art-card reveal hover-target" style="margin-top: 3rem">
-          <img
-            src="./public/Gemini_Generated_Image_opzwrwopzwrwopzw.png"
-            alt="Artwork 10"
-          />
-          <div class="art-info">
-            <h3>tout schuss</h3>
-            <p>Art conceptuel</p>
-          </div>
-        </div>
-
-        <div class="art-card reveal hover-target">
-          <img
-            src="./public/Gemini_Generated_Image_4nqmkr4nqmkr4nqm.png"
-            alt="Artwork 11"
-          />
-          <div class="art-info">
-            <h3>miroir, mon beau miroir</h3>
-            <p>Installation interactive</p>
-          </div>
-        </div>
-
-        <div class="art-card reveal hover-target" style="margin-top: 3rem">
-          <img
-            src="./public/Gemini_Generated_Image_66qmkr4nqmkr4n.png"
-            alt="Artwork 11"
-          />
-          <div class="art-info">
-            <h3>mr propre</h3>
-            <p>Design minimaliste</p>
-          </div>
-        </div>
-
-        <div class="art-card reveal hover-target">
-          <img
-            src="./public/Gemini_Generated_Image_humqm6mc8qm6mc8q.png"
-            alt="Artwork 12"
-          />
-          <div class="art-info">
-            <h3>pickels</h3>
-            <p>Art numérique abstrait</p>
-          </div>
-        </div>
-
-        <div class="art-card reveal hover-target" style="margin-top: 3rem">
-          <img
-            src="./public/Gemini_Generated_Image_okqm6mc8qm6mc8.png"
-            alt="Artwork 13"
-          />
-          <div class="art-info">
-            <h3>ice ice</h3>
-            <p>Art digital</p>
-          </div>
-        </div>
-
-        <div class="art-card reveal hover-target">
-          <img
-            src="./public/Gemini_Generated_Image_q0x1s1q0x1s1q0x1.png"
-            alt="Artwork 14"
-          />
-          <div class="art-info">
-            <h3>BD SM</h3>
-            <p>Illustration numérique</p>
-          </div>
-        </div>
-
-        <div class="art-card reveal hover-target" style="margin-top: 3rem">
-          <img
-            src="./public/Gemini_Generated_Image_f323caf323caf323.png"
-            alt="Artwork 15"
-          />
-          <div class="art-info">
-            <h3>a$$</h3>
-            <p>Art érotique numérique</p>
-          </div>
-        </div>
-
-        <div class="art-card reveal hover-target">
-          <img
-            src="./public/Gemini_Generated_Image_m7gjg5m7gjg5m7gj.png"
-            alt="Artwork 16"
-          />
-          <div class="art-info">
-            <h3>brotha</h3>
-            <p>Portrait numérique</p>
-          </div>
-        </div>
-
-        <div class="art-card reveal hover-target" style="margin-top: 3rem">
-          <img
-            src="./public/Gemini_Generated_Image_sism7gjg5m7gjggj.png"
-            alt="Artwork 17"
-          />
-          <div class="art-info">
-            <h3>NYC</h3>
-            <p>Paysage urbain numérique</p>
-          </div>
-        </div>
-
-        <div class="art-card reveal hover-target">
-          <img
-            src="./public/Gemini_Generated_Image_vwfei8vwfei8vwfe.png"
-            alt="Artwork 18"
-          />
-          <div class="art-info">
-            <h3>fire</h3>
-            <p>Art numérique dynamique</p>
-          </div>
-        </div>
-
-        <div class="art-card reveal hover-target" style="margin-top: 3rem">
-          <img
-            src="./public/Gemini_Generated_Image_n6v720n6v720n6v7.png"
-            alt="Artwork 19"
-          />
-          <div class="art-info">
-            <h3>x-ray</h3>
-            <p>Imagerie médicale numérique</p>
-          </div>
-        </div>
-      </div>
+      <div class="gallery-grid" id="gallery-grid"></div>
     </section>
 
     <footer>
@@ -586,8 +302,166 @@
     </footer>
 
     <script>
-      // --- 1. GESTION DU CURSEUR ---
+      // --- 1. DONNÉES DES ŒUVRES ---
+      // C'est ici que tu ajoutes tes nouvelles images !
+      const artworks = [
+        {
+          src: './public/Gemini_Generated_Image_8hyarp8hyarp8hya.png',
+          title: 'heu ça va toto ?',
+          type: 'Huile sur toile numérique',
+        },
+        {
+          src: './public/Gemini_Generated_Image_tfrysltfrysltfry.png',
+          title: 'ptn merde qui l’a laissé dans le booth',
+          type: 'Photographie',
+        },
+        {
+          src: './public/Gemini_Generated_Image_5gshay5gshay5gsh.png',
+          title: 'une idée géniale',
+          type: 'Art vectoriel',
+        },
+        {
+          src: './public/Gemini_Generated_Image_bjw10lbjw10lbjw1.png',
+          title: 'un truc dans les cheveux fais gaffe',
+          type: 'Collage Mixte',
+        },
+        {
+          src: './public/Gemini_Generated_Image_ftfn70ftfn70ftfn.png',
+          title: 'réfléchi pas trop',
+          type: 'Sculpture numérique',
+        },
+        {
+          src: './public/Gemini_Generated_Image_sqst7usqst7usqst.png',
+          title: 'éclosion',
+          type: 'Installation visuelle',
+        },
+        {
+          src: './public/Gemini_Generated_Image_y495m7y495m7y495.png',
+          title: 'le bon trou',
+          type: 'Peinture acrylique numérique',
+        },
+        {
+          src: './public/Gemini_Generated_Image_77c4z977c4z977c4.png',
+          title: 'smash/pass',
+          type: 'Art numérique génératif',
+        },
+        {
+          src: './public/Gemini_Generated_Image_e9zsb4e9zsb4e9zs.png',
+          title: 'scintillant',
+          type: 'Design graphique',
+        },
+        {
+          src: './public/Gemini_Generated_Image_opzwrwopzwrwopzw.png',
+          title: 'tout schuss',
+          type: 'Art conceptuel',
+        },
+        {
+          src: './public/Gemini_Generated_Image_4nqmkr4nqmkr4nqm.png',
+          title: 'miroir, mon beau miroir',
+          type: 'Installation interactive',
+        },
+        {
+          src: './public/Gemini_Generated_Image_66qmkr4nqmkr4n.png',
+          title: 'mr propre',
+          type: 'Design minimaliste',
+        },
+        {
+          src: './public/Gemini_Generated_Image_humqm6mc8qm6mc8q.png',
+          title: 'pickels',
+          type: 'Art numérique abstrait',
+        },
+        {
+          src: './public/Gemini_Generated_Image_okqm6mc8qm6mc8.png',
+          title: 'ice ice',
+          type: 'Art digital',
+        },
+        {
+          src: './public/Gemini_Generated_Image_q0x1s1q0x1s1q0x1.png',
+          title: 'BD SM',
+          type: 'Illustration numérique',
+        },
+        {
+          src: './public/Gemini_Generated_Image_f323caf323caf323.png',
+          title: 'a$$',
+          type: 'Art érotique numérique',
+        },
+        {
+          src: './public/Gemini_Generated_Image_m7gjg5m7gjg5m7gj.png',
+          title: 'brotha',
+          type: 'Portrait numérique',
+        },
+        {
+          src: './public/Gemini_Generated_Image_sism7gjg5m7gjggj.png',
+          title: 'NYC',
+          type: 'Paysage urbain numérique',
+        },
+        {
+          src: './public/Gemini_Generated_Image_vwfei8vwfei8vwfe.png',
+          title: 'fire',
+          type: 'Art numérique dynamique',
+        },
+        {
+          src: './public/Gemini_Generated_Image_n6v720n6v720n6v7.png',
+          title: 'x-ray',
+          type: 'Imagerie médicale numérique',
+        },
+        {
+          src: './public/Gemini_Generated_Image_89lfc989lfc989lf.png',
+          title: 'flash',
+          type: 'Photographie en basse lumière',
+        },
+        {
+          src: './public/Gemini_Generated_Image_bouing89lfc989lfc989lf.png',
+          title: 'vipers',
+          type: 'Photographie à haute vitesse',
+        },
+      ];
+
+      // --- 2. GÉNÉRATION DE LA GALERIE ---
+      const galleryContainer = document.getElementById('gallery-grid');
+
+      const galleryHTML = artworks
+        .map((art, index) => {
+          // Applique la classe "staggered" (décalage) pour chaque élément impair (index 1, 3, 5...)
+          // Note: index commence à 0. Donc 0=pair, 1=impair.
+          const staggerClass = index % 2 !== 0 ? 'staggered' : '';
+
+          return `
+          <div class="art-card reveal hover-target ${staggerClass}">
+            <img src="${art.src}" alt="${art.title}" loading="lazy" />
+            <div class="art-info">
+              <h3>${art.title}</h3>
+              <p>${art.type}</p>
+            </div>
+          </div>
+        `;
+        })
+        .join('');
+
+      galleryContainer.innerHTML = galleryHTML;
+
+      // --- 3. GÉNÉRATION DU MARQUEE (Carrousel) ---
+      const marqueeContainer = document.getElementById('marquee-content');
+
+      // On crée la liste d'images
+      const marqueeItemsHTML = artworks
+        .map(
+          (art) => `
+        <div class="marquee-item">
+          <img src="${art.src}" alt="${art.title}" loading="lazy" />
+        </div>
+      `
+        )
+        .join('');
+
+      // On double le contenu pour que le scroll infini soit fluide sans coupure
+      marqueeContainer.innerHTML = marqueeItemsHTML + marqueeItemsHTML;
+
+      // --- 4. LOGIQUE INTERACTIVE (Curseur, Scroll, etc.) ---
+      // Maintenant que le HTML est généré, on peut attacher les écouteurs d'événements
+
       const cursor = document.querySelector('.cursor');
+      // On sélectionne à nouveau car de nouveaux éléments hover-target ont été créés
       const hoverTargets = document.querySelectorAll('.hover-target, a');
 
       document.addEventListener('mousemove', (e) => {
@@ -604,38 +478,32 @@
         );
       });
 
-      // --- 2. EFFET DE SCROLL (REVEAL) ---
-      // On utilise l'API Intersection Observer pour la performance
+      // --- Effet Reveal au Scroll ---
       const revealElements = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('active');
+            }
+          });
+        },
+        {
+          threshold: 0.15,
+          rootMargin: '0px 0px -50px 0px',
+        }
+      );
 
-      const revealCallback = (entries, observer) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-            // Optionnel : arrêter d'observer une fois apparu
-            // observer.unobserve(entry.target);
-          }
-        });
-      };
+      revealElements.forEach((el) => observer.observe(el));
 
-      const revealOptions = {
-        threshold: 0.15, // L'élément doit être visible à 15% pour se déclencher
-        rootMargin: '0px 0px -50px 0px',
-      };
-
-      const observer = new IntersectionObserver(revealCallback, revealOptions);
-
-      revealElements.forEach((el) => {
-        observer.observe(el);
-      });
-
-      // --- 3. PARALLAX SIMPLE (Optionnel - léger décalage au scroll) ---
+      // --- Parallax Titre ---
       window.addEventListener('scroll', () => {
         const scrolled = window.scrollY;
         const heroText = document.querySelector('.hero h1');
-        // Fait bouger le titre moins vite que le scroll pour un effet de profondeur
-        heroText.style.transform = `translateY(${scrolled * 0.3}px)`;
-        heroText.style.opacity = 1 - scrolled / 500;
+        if (heroText) {
+          heroText.style.transform = `translateY(${scrolled * 0.3}px)`;
+          heroText.style.opacity = 1 - scrolled / 500;
+        }
       });
     </script>
   </body>
