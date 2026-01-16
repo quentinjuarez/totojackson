@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TotoJackson</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* --- VARIABLES & RESET --- */
+      :root {
+        --bg-color: #0a0a0a;
+        --text-color: #f0f0f0;
+        --accent-color: #d4af37; /* Or antique */
+        --cursor-size: 20px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        cursor: none; /* On cache le curseur par défaut pour mettre le nôtre */
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: 'Inter', sans-serif;
+        overflow-x: hidden;
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 400;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      /* --- CURSEUR PERSONNALISÉ --- */
+      .cursor {
+        width: var(--cursor-size);
+        height: var(--cursor-size);
+        border: 1px solid white;
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition: transform 0.1s ease;
+        mix-blend-mode: difference;
+      }
+
+      .cursor.hovered {
+        transform: translate(-50%, -50%) scale(2.5);
+        background-color: rgba(255, 255, 255, 0.1);
+        border-color: transparent;
+      }
+
+      /* --- HEADER & HERO --- */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding: 2rem 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 100;
+        mix-blend-mode: difference;
+      }
+
+      .logo {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.5rem;
+        font-weight: bold;
+        letter-spacing: 2px;
+      }
+
+      .hero {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 0 1rem;
+      }
+
+      .hero h1 {
+        font-size: clamp(3rem, 8vw, 8rem);
+        line-height: 1;
+        margin-bottom: 1rem;
+        opacity: 0;
+        transform: translateY(50px);
+        animation: fadeUp 1s ease forwards 0.5s;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        opacity: 0.7;
+        max-width: 600px;
+        opacity: 0;
+        animation: fadeUp 1s ease forwards 0.8s;
+      }
+
+      .scroll-indicator {
+        position: absolute;
+        bottom: 2rem;
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        animation: bounce 2s infinite;
+      }
+
+      /* --- AUTO SCROLL CARROUSEL (MARQUEE) --- */
+      .marquee-section {
+        padding: 4rem 0;
+        background: #111;
+        overflow: hidden;
+        border-top: 1px solid #222;
+        border-bottom: 1px solid #222;
+      }
+
+      .marquee-container {
+        display: flex;
+        width: fit-content;
+      }
+
+      .marquee-content {
+        display: flex;
+        animation: scroll 20s linear infinite;
+      }
+
+      .marquee-item {
+        width: 300px;
+        height: 200px;
+        margin-right: 2rem;
+        flex-shrink: 0;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .marquee-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(100%);
+        transition: filter 0.5s ease;
+      }
+
+      .marquee-item:hover img {
+        filter: grayscale(0%);
+      }
+
+      /* --- GALERIE --- */
+      .gallery-section {
+        padding: 5rem 5%;
+      }
+
+      .section-title {
+        font-size: 3rem;
+        margin-bottom: 4rem;
+        text-align: center;
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 2rem;
+      }
+
+      .art-card {
+        position: relative;
+        height: 500px;
+        overflow: hidden;
+      }
+
+      .art-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.8s ease;
+      }
+
+      .art-card:hover img {
+        transform: scale(1.05);
+      }
+
+      .art-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 1.5rem;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+        transform: translateY(100%);
+        transition: transform 0.4s ease;
+      }
+
+      .art-card:hover .art-info {
+        transform: translateY(0);
+      }
+
+      /* --- ANIMATIONS & UTILITIES --- */
+      @keyframes scroll {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        } /* Doit bouger de 50% car le contenu est dupliqué */
+      }
+
+      @keyframes fadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-10px);
+        }
+        60% {
+          transform: translateY(-5px);
+        }
+      }
+
+      /* Classe pour l'effet de scroll JS */
+      .reveal {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+      }
+
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      footer {
+        padding: 4rem;
+        text-align: center;
+        border-top: 1px solid #222;
+        font-family: 'Playfair Display', serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cursor"></div>
+
+    <nav>
+      <div class="logo hover-target">TotoJackson</div>
+      <!-- <div class="menu hover-target">Menu</div> -->
+    </nav>
+
+    <header class="hero">
+      <h1>L'Art de la<br />Calvitie.</h1>
+      <p>
+        Une collection numérique explorant la frontière entre le design créatif
+        et l'expression pure.
+      </p>
+      <div class="scroll-indicator">Scrollez pour explorer</div>
+    </header>
+
+    <section class="marquee-section">
+      <div class="marquee-container">
+        <div class="marquee-content hover-target">
+          <div class="marquee-item">
+            <img
+              src="./public/Gemini_Generated_Image_5gshay5gshay5gsh.png"
+              alt="Art"
+            />
+          </div>
+          <div class="marquee-item">
+            <img
+              src="./public/Gemini_Generated_Image_8hyarp8hyarp8hya.png"
+              alt="Art"
+            />
+          </div>
+          <div class="marquee-item">
+            <img
+              src="./public/Gemini_Generated_Image_77c4z977c4z977c4.png"
+              alt="Art"
+            />
+          </div>
+          <div class="marquee-item">
+            <img
+              src="./public/Gemini_Generated_Image_bjw10lbjw10lbjw1.png"
+              alt="Art"
+            />
+          </div>
+          <div class="marquee-item">
+            <img
+              src="./public/Gemini_Generated_Image_e9zsb4e9zsb4e9zs.png"
+              alt="Art"
+            />
+          </div>
+          <div class="marquee-item">
+            <img
+              src="./public/Gemini_Generated_Image_ftfn70ftfn70ftfn.png"
+              alt="Art"
+            />
+          </div>
+          <div class="marquee-item">
+            <img
+              src="./public/Gemini_Generated_Image_lw7yiblw7yiblw7y.png"
+              alt="Art"
+            />
+          </div>
+          <div class="marquee-item">
+            <img
+              src="./public/Gemini_Generated_Image_q0x1s1q0x1s1q0x1.png"
+              alt="Art"
+            />
+          </div>
+          <div class="marquee-item">
+            <img
+              src="./public/Gemini_Generated_Image_qd0eimqd0eimqd0e.png"
+              alt="Art"
+            />
+          </div>
+          <div class="marquee-item">
+            <img
+              src="./public/Gemini_Generated_Image_tea9bitea9bitea9.png"
+              alt="Art"
+            />
+          </div>
+          <div class="marquee-item">
+            <img
+              src="./public/Gemini_Generated_Image_tfrysltfrysltfry.png"
+              alt="Art"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery-section">
+      <h2 class="section-title reveal">Œuvres Sélectionnées</h2>
+
+      <div class="gallery-grid">
+        <div class="art-card reveal hover-target">
+          <img
+            src="./public/Gemini_Generated_Image_8hyarp8hyarp8hya.png"
+            alt="Artwork 1"
+          />
+          <div class="art-info">
+            <h3>heu ça va toto ?</h3>
+            <p>Huile sur toile numérique</p>
+          </div>
+        </div>
+
+        <div class="art-card reveal hover-target" style="margin-top: 3rem">
+          <img
+            src="./public/Gemini_Generated_Image_tfrysltfrysltfry.png"
+            alt="Artwork 2"
+          />
+          <div class="art-info">
+            <h3>ptn merde qui l’a laissé dans le booth</h3>
+            <p>Photographie</p>
+          </div>
+        </div>
+
+        <div class="art-card reveal hover-target">
+          <img
+            src="./public/Gemini_Generated_Image_5gshay5gshay5gsh.png"
+            alt="Artwork 3"
+          />
+          <div class="art-info">
+            <h3>une idée géniale</h3>
+            <p>Art vectoriel</p>
+          </div>
+        </div>
+
+        <div class="art-card reveal hover-target" style="margin-top: 3rem">
+          <img
+            src="./public/Gemini_Generated_Image_bjw10lbjw10lbjw1.png"
+            alt="Artwork 4"
+          />
+          <div class="art-info">
+            <h3>un truc dans les cheveux fais gaffe</h3>
+            <p>Collage Mixte</p>
+          </div>
+        </div>
+
+        <div class="art-card reveal hover-target" style="margin-top: 3rem">
+          <img
+            src="./public/Gemini_Generated_Image_ftfn70ftfn70ftfn.png"
+            alt="Artwork 4"
+          />
+          <div class="art-info">
+            <h3>réfléchi pas trop</h3>
+            <p>Collage Mixte</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p class="reveal">© 2026 TotoJackson. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+      // --- 1. GESTION DU CURSEUR ---
+      const cursor = document.querySelector('.cursor');
+      const hoverTargets = document.querySelectorAll('.hover-target, a');
+
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+      });
+
+      hoverTargets.forEach((target) => {
+        target.addEventListener('mouseenter', () =>
+          cursor.classList.add('hovered')
+        );
+        target.addEventListener('mouseleave', () =>
+          cursor.classList.remove('hovered')
+        );
+      });
+
+      // --- 2. EFFET DE SCROLL (REVEAL) ---
+      // On utilise l'API Intersection Observer pour la performance
+      const revealElements = document.querySelectorAll('.reveal');
+
+      const revealCallback = (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            // Optionnel : arrêter d'observer une fois apparu
+            // observer.unobserve(entry.target);
+          }
+        });
+      };
+
+      const revealOptions = {
+        threshold: 0.15, // L'élément doit être visible à 15% pour se déclencher
+        rootMargin: '0px 0px -50px 0px',
+      };
+
+      const observer = new IntersectionObserver(revealCallback, revealOptions);
+
+      revealElements.forEach((el) => {
+        observer.observe(el);
+      });
+
+      // --- 3. PARALLAX SIMPLE (Optionnel - léger décalage au scroll) ---
+      window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        const heroText = document.querySelector('.hero h1');
+        // Fait bouger le titre moins vite que le scroll pour un effet de profondeur
+        heroText.style.transform = `translateY(${scrolled * 0.3}px)`;
+        heroText.style.opacity = 1 - scrolled / 500;
+      });
+    </script>
+  </body>
+</html>
