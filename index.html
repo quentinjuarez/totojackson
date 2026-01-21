@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
@@ -457,6 +457,101 @@
           title: 'en forme',
           type: 'Art corporel numérique',
         },
+        {
+          src: './public/image (4).png',
+          title: 'retro wave',
+          type: 'Art rétro numérique',
+        },
+        {
+          src: './public/image (5).png',
+          title: 'super chauve',
+          type: 'Art de super-héros numérique',
+        },
+        {
+          src: './public/image (6).png',
+          title: 'pablo',
+          type: 'Portrait cubiste numérique',
+        },
+        {
+          src: './public/image (7).png',
+          title: 'capite',
+          type: 'Art floral numérique',
+        },
+        {
+          src: './public/image (8).png',
+          title: 'galaxie',
+          type: 'Art cosmique numérique',
+        },
+        {
+          src: './public/image (9).png',
+          title: 'ken',
+          type: 'Art inspiré de l’anime',
+        },
+        {
+          src: './public/image (10).png',
+          title: 'krilin',
+          type: "Art inspiré de l'anime",
+        },
+        {
+          src: './public/image (11).png',
+          title: 'warfare',
+          type: 'Art militaire numérique',
+        },
+        {
+          src: './public/image (12).png',
+          title: 'cheffe',
+          type: 'Portrait numérique',
+        },
+        {
+          src: './public/image (13).png',
+          title: 'henri pottier',
+          type: 'Art fantastique numérique',
+        },
+        {
+          src: './public/image (14).png',
+          title: 'hellium',
+          type: 'Art abstrait numérique',
+        },
+        {
+          src: './public/image (15).png',
+          title: 'mario',
+          type: 'Art de jeu vidéo numérique',
+        },
+        {
+          src: './public/image (16).png',
+          title: 'tom bradé',
+          type: 'Portrait sportif numérique',
+        },
+        {
+          src: './public/image (17).png',
+          title: 'saint thomas',
+          type: 'Art religieux numérique',
+        },
+        {
+          src: './public/image (18).png',
+          title: 'féodale',
+          type: 'Art historique numérique',
+        },
+        {
+          src: './public/image (19).png',
+          title: 'dali',
+          type: 'Art surréaliste numérique',
+        },
+        {
+          src: './public/image (20).png',
+          title: 'masque',
+          type: 'Art culturel numérique',
+        },
+        {
+          src: './public/image (21).png',
+          title: 'garçon enfer',
+          type: 'Art conceptuel numérique',
+        },
+        {
+          src: './public/image (22).png',
+          title: 'shrek',
+          type: 'Art de personnage numérique',
+        },
       ];
 
       // --- 2. GÉNÉRATION DE LA GALERIE ---
@@ -492,7 +587,7 @@
         <div class="marquee-item">
           <img src="${art.src}" alt="${art.title}" loading="lazy" />
         </div>
-      `
+      `,
         )
         .join('');
 
@@ -513,10 +608,10 @@
 
       hoverTargets.forEach((target) => {
         target.addEventListener('mouseenter', () =>
-          cursor.classList.add('hovered')
+          cursor.classList.add('hovered'),
         );
         target.addEventListener('mouseleave', () =>
-          cursor.classList.remove('hovered')
+          cursor.classList.remove('hovered'),
         );
       });
 
@@ -533,7 +628,7 @@
         {
           threshold: 0.15,
           rootMargin: '0px 0px -50px 0px',
-        }
+        },
       );
 
       revealElements.forEach((el) => observer.observe(el));
