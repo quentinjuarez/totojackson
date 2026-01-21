@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TotoJackson</title>
+    <link rel="icon" href="./public/favicon.ico" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,7 +14,6 @@
     />
 
     <style>
-      /* --- VARIABLES & RESET --- */
       :root {
         --bg-color: #0a0a0a;
         --text-color: #f0f0f0;
@@ -42,39 +42,23 @@
         font-weight: 400;
       }
 
-      a {
-        text-decoration: none;
-        color: inherit;
-      }
-
-      /* --- CURSEUR --- */
-
+      /* CURSOR */
       .cursor {
         width: var(--cursor-size);
         height: var(--cursor-size);
-
-        background-image: url('./public/cursor.png');
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-
+        background: url('./public/cursor.png') center/contain no-repeat;
         position: fixed;
         pointer-events: none;
         z-index: 9999;
-
         transform: translate(-50%, -50%);
         transition: transform 0.15s ease;
       }
 
       .cursor.hovered {
-        /* On garde l'effet de zoom */
         transform: translate(-50%, -50%) scale(2.5);
-
-        background-color: transparent;
-        border-color: transparent;
       }
 
-      /* --- HEADER & HERO --- */
+      /* HEADER */
       nav {
         position: fixed;
         top: 0;
@@ -146,8 +130,8 @@
 
       .marquee-content {
         display: flex;
-        /* Animation gérée dynamiquement si besoin, ou fixe */
         animation: scroll 40s linear infinite;
+        will-change: transform;
       }
 
       .marquee-item {
@@ -171,15 +155,11 @@
         filter: grayscale(0%);
       }
 
-      /* --- GALERIE --- */
+      /* GALLERY */
       .gallery-section {
         padding: 5rem 5%;
-      }
-
-      .section-title {
-        font-size: 3rem;
-        margin-bottom: 4rem;
-        text-align: center;
+        content-visibility: auto;
+        contain-intrinsic-size: 2000px;
       }
 
       .gallery-grid {
@@ -189,12 +169,11 @@
       }
 
       .art-card {
-        position: relative;
         height: 500px;
         overflow: hidden;
+        position: relative;
       }
 
-      /* Classe utilitaire pour le décalage (ajoutée via JS) */
       .art-card.staggered {
         margin-top: 3rem;
       }
@@ -203,7 +182,7 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.8s ease;
+        transition: transform 0.8s;
       }
 
       .art-card:hover img {
@@ -213,24 +192,30 @@
       .art-info {
         position: absolute;
         bottom: 0;
-        left: 0;
         width: 100%;
         padding: 1.5rem;
         background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
         transform: translateY(100%);
-        transition: transform 0.4s ease;
+        transition: transform 0.4s;
       }
 
       .art-card:hover .art-info {
         transform: translateY(0);
       }
 
-      /* --- ANIMATIONS --- */
+      .reveal {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 0.8s ease;
+      }
+
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
       @keyframes scroll {
-        0% {
-          transform: translateX(0);
-        }
-        100% {
+        to {
           transform: translateX(-50%);
         }
       }
@@ -277,6 +262,7 @@
       }
     </style>
   </head>
+
   <body>
     <div class="cursor"></div>
 
@@ -309,8 +295,6 @@
     </footer>
 
     <script>
-      // --- 1. DONNÉES DES ŒUVRES ---
-      // C'est ici que tu ajoutes tes nouvelles images !
       const artworks = [
         {
           src: './public/Gemini_Generated_Image_8hyarp8hyarp8hya.png',
@@ -577,95 +561,99 @@
           title: 'grand theft alopécie',
           type: 'Art de jeu vidéo numérique',
         },
+        {
+          src: './public/Gemini_Generated_Image_cop9v5cop9v5cop9.png',
+          title: 'très sec',
+          type: 'Art minimaliste numérique',
+        },
+        {
+          src: './public/Gemini_Generated_Image_cuyefocuyefocuye.png',
+          title: 'éponge',
+          type: 'Art de personnage numérique',
+        },
+        {
+          src: './public/Gemini_Generated_Image_frr6etfrr6etfrr6.png',
+          title: 'marc',
+          type: 'Portrait numérique',
+        },
+        {
+          src: './public/Gemini_Generated_Image_nh4gfnh4gfnh4gfn.png',
+          title: 'babar',
+          type: 'Art animalier numérique',
+        },
       ];
 
-      // --- 2. GÉNÉRATION DE LA GALERIE ---
-      const galleryContainer = document.getElementById('gallery-grid');
+      const marquee = document.getElementById('marquee-content');
+      const gallery = document.getElementById('gallery-grid');
+      const cursor = document.querySelector('.cursor');
 
-      const galleryHTML = artworks
-        .map((art, index) => {
-          // Applique la classe "staggered" (décalage) pour chaque élément impair (index 1, 3, 5...)
-          // Note: index commence à 0. Donc 0=pair, 1=impair.
-          const staggerClass = index % 2 !== 0 ? 'staggered' : '';
+      /* MARQUEE */
+      marquee.innerHTML = artworks
+        .map(
+          (art) => `
+        <div class="marquee-item">
+          <img src="${art.src}" loading="eager" decoding="async" width="300" height="200">
+        </div>
+      `,
+        )
+        .join('');
+      marquee.innerHTML += marquee.innerHTML;
 
-          return `
-          <div class="art-card reveal hover-target ${staggerClass}">
-            <img src="${art.src}" alt="${art.title}" loading="lazy" />
+      /* LAZY GALLERY */
+      let galleryRendered = false;
+
+      const renderGallery = () => {
+        gallery.innerHTML = artworks
+          .map(
+            (art, i) => `
+          <div class="art-card reveal ${i % 2 ? 'staggered' : ''} hover-target">
+            <img src="${art.src}" loading="lazy" decoding="async" width="350" height="500">
             <div class="art-info">
               <h3>${art.title}</h3>
               <p>${art.type}</p>
             </div>
           </div>
-        `;
-        })
-        .join('');
+        `,
+          )
+          .join('');
+        initReveal();
+        initHover();
+      };
 
-      galleryContainer.innerHTML = galleryHTML;
+      const galleryObserver = new IntersectionObserver(
+        (entries, obs) => {
+          if (entries[0].isIntersecting && !galleryRendered) {
+            renderGallery();
+            galleryRendered = true;
+            obs.disconnect();
+          }
+        },
+        { rootMargin: '200px' },
+      );
 
-      // --- 3. GÉNÉRATION DU MARQUEE (Carrousel) ---
-      const marqueeContainer = document.getElementById('marquee-content');
+      galleryObserver.observe(gallery);
 
-      // On crée la liste d'images
-      const marqueeItemsHTML = artworks
-        .map(
-          (art) => `
-        <div class="marquee-item">
-          <img src="${art.src}" alt="${art.title}" loading="lazy" />
-        </div>
-      `,
-        )
-        .join('');
+      /* REVEAL */
+      function initReveal() {
+        document.querySelectorAll('.reveal').forEach((el) => {
+          new IntersectionObserver(
+            ([e]) => e.isIntersecting && el.classList.add('active'),
+            { threshold: 0.15 },
+          ).observe(el);
+        });
+      }
 
-      // On double le contenu pour que le scroll infini soit fluide sans coupure
-      marqueeContainer.innerHTML = marqueeItemsHTML + marqueeItemsHTML;
-
-      // --- 4. LOGIQUE INTERACTIVE (Curseur, Scroll, etc.) ---
-      // Maintenant que le HTML est généré, on peut attacher les écouteurs d'événements
-
-      const cursor = document.querySelector('.cursor');
-      // On sélectionne à nouveau car de nouveaux éléments hover-target ont été créés
-      const hoverTargets = document.querySelectorAll('.hover-target, a');
+      /* CURSOR */
+      function initHover() {
+        document.querySelectorAll('.hover-target').forEach((el) => {
+          el.onmouseenter = () => cursor.classList.add('hovered');
+          el.onmouseleave = () => cursor.classList.remove('hovered');
+        });
+      }
 
       document.addEventListener('mousemove', (e) => {
         cursor.style.left = e.clientX + 'px';
         cursor.style.top = e.clientY + 'px';
-      });
-
-      hoverTargets.forEach((target) => {
-        target.addEventListener('mouseenter', () =>
-          cursor.classList.add('hovered'),
-        );
-        target.addEventListener('mouseleave', () =>
-          cursor.classList.remove('hovered'),
-        );
-      });
-
-      // --- Effet Reveal au Scroll ---
-      const revealElements = document.querySelectorAll('.reveal');
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('active');
-            }
-          });
-        },
-        {
-          threshold: 0.15,
-          rootMargin: '0px 0px -50px 0px',
-        },
-      );
-
-      revealElements.forEach((el) => observer.observe(el));
-
-      // --- Parallax Titre ---
-      window.addEventListener('scroll', () => {
-        const scrolled = window.scrollY;
-        const heroText = document.querySelector('.hero h1');
-        if (heroText) {
-          heroText.style.transform = `translateY(${scrolled * 0.3}px)`;
-          heroText.style.opacity = 1 - scrolled / 500;
-        }
       });
     </script>
   </body>
